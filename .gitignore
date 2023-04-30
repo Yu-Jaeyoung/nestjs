@@ -3,6 +3,7 @@
 
 .DS_Store
 package-lock.json
+tsconfig.build.json
 config.json
 .idea
 ### Node ###
@@ -14,6 +15,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
+pnpm-debug.log*
 node_modules
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
@@ -188,6 +190,30 @@ dist
 # .idea/modules
 # *.iml
 # *.ipr
+
+# compiled output
+/dist
+/node_modules
+
+# Tests
+/coverage
+/.nyc_output
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 # CMake
 cmake-build-*/
