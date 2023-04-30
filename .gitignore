@@ -1,6 +1,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/node,webstorm
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,webstorm
 
+book-nestjs-backend
 .DS_Store
 package-lock.json
 tsconfig.build.json
