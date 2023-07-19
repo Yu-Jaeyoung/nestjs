@@ -4,7 +4,7 @@ Accept: application/json
 
 ###
 POST http://localhost:3000/users
-Accept: :application/json
+Accept: application/json
 Content-Type: application/json
 
 {

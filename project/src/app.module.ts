@@ -2,16 +2,23 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
-import { User, UserSchema } from './users/entities/user.entity';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserEntity } from './users/en' +
+    'tities/user.entity';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb://Yu-Jaeyoung:nodejs@localhost:27017/admin',
-    ),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     UsersModule,
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: 'test',
+      database: 'test',
+      entities: [__dirname + '/**/*.entity{.ts,.js}', UserEntity],
+      synchronize: true,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
