@@ -12,18 +12,53 @@ import {
 @Injectable()
 export class LoggerService implements NestLoggerService {
 
-    private print(level: LogLevel, ...args: unknown[]):void {
-        const time = new Date().toISOString();
-        const context = args.pop();
-        const message = args.shift();
+    private formatString(input: string, length: number): string {
+        return input.padEnd(length, "").substring(0, length);
+    }
+
+    private formatMessage(
+        level: LogLevel,
+        time: string,
+        context: string,
+        message: string,
+        requestId?: string,
+    ): string {
+        const formatLevel = this.formatString(level.toUpperCase(), 7);
+
+        return `${time} | ${formatLevel} | ${context.slice(0, 19)} - ${message}(${requestId})`;
+    }
+
+    private print(level: LogLevel, ...args: unknown[]): void {
+        const time: string = new Date().toISOString();
+        const context: string = this.formatString(args.pop() as string, 20);
+        const message: string = args.shift() as string;
         const params = args.length !== 0 ? args : undefined;
 
         const requestId = storage.getStore();
+        const printMessage = this.formatMessage(level, time, context, message, requestId);
 
-        const result = `${Color.fg.green}${time}${Color.reset} | ${level} | ${context} - ${message}(${requestId})`;
-
-        // eslint-disable-next-line no-console
-        console.log(result, params);
+        switch (level) {
+            case "log":
+                // eslint-disable-next-line no-console
+                console.log(Color.reset, printMessage, params, Color.reset);
+                break;
+            case "debug":
+                // eslint-disable-next-line no-console
+                console.log(Color.fg.gray, printMessage, params, Color.reset);
+                break;
+            case "warn":
+                // eslint-disable-next-line no-console
+                console.log(Color.fg.yellow, printMessage, params, Color.reset);
+                break;
+            case "error":
+                // eslint-disable-next-line no-console
+                console.log(Color.bg.red, printMessage, params, Color.reset);
+                break;
+            default:
+                // eslint-disable-next-line no-console
+                console.log(Color.bg.white, printMessage, params, Color.reset);
+                break;
+        }
     }
 
     debug(

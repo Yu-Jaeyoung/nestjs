@@ -1,5 +1,9 @@
 import {
-    Controller, Get, Logger, Headers,
+    Response,
+} from "express";
+
+import {
+    Controller, Get, Logger, Res,
 } from "@nestjs/common";
 
 import {
@@ -10,17 +14,22 @@ import {
     AppEnvironment,
 } from "@main/type/environment";
 
-@Controller()
+import {
+    join,
+} from "path";
+
+@Controller("/")
 export class AppController {
   private readonly logger = new Logger(AppController.name);
 
   constructor(private readonly appService: AppService) {
   }
 
-  @Get()
-  getHello(
-  ): string {
-      return this.appService.getHello();
+  @Get("/")
+  getIndex(
+    @Res() response: Response,
+  ): void {
+      response.sendFile(join(process.cwd(), "src/resource/static/index.html"));
   }
 
   @Get("/config")

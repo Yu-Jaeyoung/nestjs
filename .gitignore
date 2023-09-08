@@ -7,6 +7,10 @@ package-lock.json
 tsconfig.build.json
 config.json
 .idea
+
+# certificate
+*.pem
+
 ### Node ###
 # Logs
 logs
