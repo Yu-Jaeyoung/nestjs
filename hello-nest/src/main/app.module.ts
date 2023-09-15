@@ -27,9 +27,14 @@ import {
 } from "./common/logger/logger.module";
 
 import appConfig from "@main/configurer/app.config";
+
 import {
     ServeStaticModule,
 } from "@nestjs/serve-static";
+
+import {
+    AccountModule, 
+} from './account/account.module';
 
 @Module({
     imports: [
@@ -45,6 +50,7 @@ import {
         ServeStaticModule.forRoot({
             rootPath: join(process.cwd(), "src/resource/static"),
         }),
+        AccountModule,
     ],
     controllers: [AppController,],
     providers: [AppService,],
