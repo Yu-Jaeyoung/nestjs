@@ -1,20 +1,30 @@
 ####
-POST localhost:13000/accounts
+POST localhost:13000/accounts/signup
 Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Yu Hong",
-  "email": "gildong@emai7.net"
+  "name": "Yu Jae5",
+  "email": "test5@email.com",
+  "password": "password"
 }
 
 > {%
     client.global.set("id", response.body.id);
 %}
 
+####
+POST localhost:13000/accounts/signin
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "test5@email.com",
+  "password": "password"
+}
 
 ####
-GET localhost:13000/accounts
+GET localhost:13000/accounts/findAll
 Accept: application/json
 Content-Type: application/json
 

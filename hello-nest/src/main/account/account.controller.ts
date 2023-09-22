@@ -1,8 +1,10 @@
 import {
     Body,
-    Controller, Delete, Get, Param, Patch,
+    Controller, Delete, Get, HttpCode, Param, Patch,
     Post,
 } from "@nestjs/common";
+
+import * as bcrypt from "bcrypt";
 
 import {
     AccountService,
@@ -18,19 +20,43 @@ export class AccountController {
 
     }
 
-  @Post("")
+  @Post("signup")
     async signup(
     @Body() account: {
       email: string,
+      password: string,
       name?: string,
     },
     ): Promise<AccountModel> {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+        account.password = await bcrypt.hash(account.password, 10);
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         return this.accountService.create(account);
     }
 
-  @Get("")
+  @HttpCode(200)
+  @Post("signin")
+  async signin(
+    @Body() account: {
+      email: string,
+      password: string
+    },
+  ): Promise<object> {
+      const foundAccount = await this.accountService.findByEmail(account.email);
+
+      const isMatch = await bcrypt.compare(account.password, foundAccount.password);
+
+      return isMatch ? {
+          "status": 200,
+          "message": "OK",
+      } : {
+          "status": 401,
+          "message": "UnAuthorized",
+      };
+  }
+
+  @Get("findAll")
   async findAll(): Promise<AccountModel[]> {
       return this.accountService.findAll();
   }

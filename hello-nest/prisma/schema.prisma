@@ -9,6 +9,7 @@ datasource db {
 
 model Account {
   id String @id @default(auto()) @map("_id") @db.ObjectId
+  password String
   email String @unique
   name String?
   createdAt DateTime @default(now())

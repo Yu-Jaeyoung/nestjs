@@ -39,6 +39,16 @@ export class AccountService {
         return result ? result : {} as Account;
     }
 
+    async findByEmail(email: string): Promise<Account> {
+        const result = await this.prisma.account.findUnique({
+            where: {
+                email,
+            },
+        });
+
+        return result ? result : {} as Account;
+    }
+
     async update(
         id: string,
         account: {
@@ -58,8 +68,8 @@ export class AccountService {
       email: string,
     },
     ): Promise<Account[]> {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
         return await this.prisma.account.updateMany({
             where: {
                 email: {
